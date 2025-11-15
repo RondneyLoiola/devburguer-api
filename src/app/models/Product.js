@@ -8,6 +8,12 @@ class Product extends Model {
         price: Sequelize.INTEGER,
         category: Sequelize.STRING,
         path: Sequelize.STRING,
+        url: {
+          type: Sequelize.VIRTUAL, //cria um campo virtual do banco
+          get() {
+            return `http://localhost:3001/product-file/${this.path}`
+          }
+        }
       },
       {
         sequelize,
@@ -18,3 +24,5 @@ class Product extends Model {
 }
 
 export default Product;
+
+//get -> produto -> sequelize busca o produto -> monta campo virtual com os dados do produto

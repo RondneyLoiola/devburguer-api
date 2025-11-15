@@ -1,7 +1,8 @@
 import * as yup from 'yup';
+import Product from '../models/Product.js';
 
 class ProductController {
-  async store(req, res) {
+  async store(req, res) { //cria
     const schema = yup.object({
       name: yup.string().required(),
       price: yup.number().required(),
@@ -10,11 +11,29 @@ class ProductController {
 
     try {
       schema.validateSync(req.body, { abortEarly: false });
+      // o strict foi removido por causa do formdata no insomnia, para receber o price como number
     } catch (error) {
       return res.status(400).json({ error: error.errors });
     }
-    
-    return res.status(201).json({ ok: true });
+
+    const { name, price, category } = req.body;
+    const { filename } = req.file;
+    //const image = req.file
+
+    const newProduct = await Product.create({
+      name,
+      price,
+      category,
+      path: filename,
+    });
+
+    return res.status(201).json(newProduct);
+  }
+
+  async index(_req, res) { //busca
+    const products = await Product.findAll()
+
+    return res.status(200).json(products)
   }
 }
 
