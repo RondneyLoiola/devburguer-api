@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
 import * as yup from 'yup';
 import User from '../models/User.js';
+import jwt from 'jsonwebtoken';
+import authConfig from '../../config/auth.js'
 
 class SessionController {
   async store(req, res) {
@@ -40,11 +42,17 @@ class SessionController {
       emailOrPasswordIncorrect();
     }
 
+    // md5 generator
+    const token = jwt.sign({id: existingUser.id}, authConfig.secret, {
+      expiresIn: authConfig.expiresIn
+    })
+
     return res.status(200).json({
         id: existingUser.id,
         name: existingUser.name,
         email: existingUser.email,
-        admin: existingUser.admin
+        admin: existingUser.admin,
+        token
      });
   }
 }

@@ -2,7 +2,7 @@ import Sequelize, { Model } from 'sequelize';
 
 class Product extends Model {
   static init(sequelize) {
-    Model.init(
+    super.init(
       {
         name: Sequelize.STRING,
         price: Sequelize.INTEGER,
@@ -11,9 +11,9 @@ class Product extends Model {
         url: {
           type: Sequelize.VIRTUAL, //cria um campo virtual do banco
           get() {
-            return `http://localhost:3001/product-file/${this.path}`
-          }
-        }
+            return `http://localhost:3001/product-file/${this.path}`;
+          },
+        },
       },
       {
         sequelize,
