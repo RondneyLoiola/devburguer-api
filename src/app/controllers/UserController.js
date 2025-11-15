@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import User from '../models/User.js';
 
 class UserController {
-  async store(request, response) {
+  async store(req, res) {
     const schema = yup.object({
       name: yup.string().required(),
       email: yup.string().email().required(),
@@ -13,12 +13,12 @@ class UserController {
     });
 
     try {
-      schema.validateSync(request.body, { abortEarly: false, strict: true });
+      schema.validateSync(req.body, { abortEarly: false, strict: true });
     } catch (error) {
-      return response.status(400).json({ error: error.errors });
+      return res.status(400).json({ error: error.errors });
     }
 
-    const { name, email, password, admin } = request.body;
+    const { name, email, password, admin } = req.body;
 
     //verificar se o usuário existe
     const existingUser = await User.findOne({
@@ -28,7 +28,7 @@ class UserController {
     });
 
     if (existingUser) {
-      return response.status(400).json({
+      return res.status(400).json({
         message: 'Email already taken!',
       });
     }
@@ -43,7 +43,7 @@ class UserController {
       admin,
     });
 
-    return response.status(201).json({
+    return res.status(201).json({
       id: user.id,
       name: user.name,
       email: user.email,
