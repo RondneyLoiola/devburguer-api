@@ -20,7 +20,9 @@ const authMiddleware = (req, res, next) => {
       }
 
       // cria um campo userId na request
+      //console.log(decoded)
       req.userId = decoded.id;
+      req.userIsAdmin = decoded.admin
     });
   } catch (_error) {
     return res.status(401).json({ error: 'Token is invalid!' });

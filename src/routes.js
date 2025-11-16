@@ -1,11 +1,12 @@
 import { Router } from 'express';
 import multer from 'multer';
+import CategoryController from './app/controllers/CategoryController.js';
 import ProductController from './app/controllers/ProductController.js';
 import SessionController from './app/controllers/SessionController.js';
 import UserController from './app/controllers/UserController.js';
 import multerConfig from './config/multer.cjs';
+import adminMiddleware from './middleware/admin.js';
 import authMiddleware from './middleware/auth.js';
-import CategoryController from './app/controllers/CategoryController.js';
 
 const routes = new Router();
 
@@ -16,11 +17,15 @@ routes.post('/users', UserController.store);
 routes.post('/session', SessionController.store);
 
 routes.use(authMiddleware); // todas as rotas abaixo terão o middleware
-routes.post('/products', upload.single('file'), ProductController.store);
-routes.get('/products', ProductController.index)
+routes.post(
+  '/products',
+  adminMiddleware,
+  upload.single('file'),
+  ProductController.store,
+);
+routes.get('/products', ProductController.index);
 
-routes.post('/categories', CategoryController.store);
-routes.get('/categories', CategoryController.index)
-
+routes.post('/categories', adminMiddleware, CategoryController.store);
+routes.get('/categories', CategoryController.index);
 
 export default routes;
