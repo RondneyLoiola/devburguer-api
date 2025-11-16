@@ -4,6 +4,7 @@ import ProductController from './app/controllers/ProductController.js';
 import SessionController from './app/controllers/SessionController.js';
 import UserController from './app/controllers/UserController.js';
 import multerConfig from './config/multer.cjs';
+import authMiddleware from './middleware/auth.js';
 
 const routes = new Router();
 
@@ -13,6 +14,7 @@ routes.post('/users', UserController.store);
 
 routes.post('/session', SessionController.store);
 
+routes.use(authMiddleware); // todas as rotas abaixo terão o middleware
 routes.post('/products', upload.single('file'), ProductController.store);
 routes.get('/products', ProductController.index)
 

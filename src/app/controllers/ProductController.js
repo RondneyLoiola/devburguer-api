@@ -30,7 +30,7 @@ class ProductController {
     return res.status(201).json(newProduct);
   }
 
-  async index(_req, res) { //busca
+  async index(req, res) { //busca
     const products = await Product.findAll()
 
     return res.status(200).json(products)
