@@ -2,7 +2,8 @@ import * as yup from 'yup';
 import Product from '../models/Product.js';
 
 class ProductController {
-  async store(req, res) { //cria
+  async store(req, res) {
+    //cria
     const schema = yup.object({
       name: yup.string().required(),
       price: yup.number().required(),
@@ -30,10 +31,11 @@ class ProductController {
     return res.status(201).json(newProduct);
   }
 
-  async index(req, res) { //busca
-    const products = await Product.findAll()
+  async index(_req, res) {
+    //busca
+    const products = await Product.findAll();
 
-    return res.status(200).json(products)
+    return res.status(200).json(products);
   }
 }
 
