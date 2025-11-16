@@ -11,6 +11,8 @@ class Category extends Model {
         tableName: 'categories',
       },
     );
+
+    return this; // por causa do map no database/index.js
   }
 }
 

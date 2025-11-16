@@ -6,7 +6,7 @@ class Product extends Model {
       {
         name: Sequelize.STRING,
         price: Sequelize.INTEGER,
-        category: Sequelize.STRING,
+        //category: Sequelize.STRING, removido na migration
         path: Sequelize.STRING,
         url: {
           type: Sequelize.VIRTUAL, //cria um campo virtual do banco
@@ -20,6 +20,16 @@ class Product extends Model {
         tableName: 'products',
       },
     );
+
+    return this; // por causa do map no database/index.js
+  }
+
+  //relação do produto com a categoria
+  static associate(models){
+    this.belongsTo(models.Category, { 
+      foreignKey: 'category_id', //chave estrangeira, referencia o id da categoria
+      as: 'category' 
+    });
   }
 }
 

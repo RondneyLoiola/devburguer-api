@@ -15,6 +15,8 @@ class User extends Model {
         tableName: 'users',
       },
     );
+
+    return this; // por causa do map no database/index.js
   }
 }
 
