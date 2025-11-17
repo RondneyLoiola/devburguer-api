@@ -15,6 +15,8 @@ const upload = multer(multerConfig);
 
 // Users
 routes.post('/users', UserController.store);
+routes.get('/users', UserController.index);
+routes.delete('/users/:id', UserController.delete);
 
 // Session
 routes.post('/session', SessionController.store);
