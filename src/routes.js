@@ -13,10 +13,13 @@ const routes = new Router();
 
 const upload = multer(multerConfig);
 
+// Users
 routes.post('/users', UserController.store);
 
+// Session
 routes.post('/session', SessionController.store);
 
+// Products
 routes.use(authMiddleware); // todas as rotas abaixo terão o middleware
 routes.post(
   '/products',
@@ -32,6 +35,7 @@ routes.put(
 );
 routes.get('/products', ProductController.index);
 
+// Categories
 routes.post(
   '/categories',
   adminMiddleware,
@@ -46,6 +50,13 @@ routes.put(
 );
 routes.get('/categories', CategoryController.index);
 
-routes.post('/orders', adminMiddleware, OrderController.store);
+// Orders
+routes.post('/orders', OrderController.store);
+routes.get('/orders', OrderController.index);
+routes.put(
+  '/orders/:id',
+  adminMiddleware,
+  OrderController.update,
+);
 
 export default routes;

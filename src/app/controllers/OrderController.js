@@ -74,6 +74,35 @@ class OrderController {
 
     return res.status(201).json(newOrder);
   }
+
+  async update(req, res) {
+    const schema = yup.object({
+      status: yup.string().required(),
+    });
+
+    try {
+      schema.validateSync(req.body, { abortEarly: false, strict: true });
+    } catch (error) {
+      return res.status(400).json({ error: error.errors });
+    }
+
+    const { status } = req.body;
+    const { id } = req.params;
+
+    try {
+      await Order.updateOne({ _id: id }, { status });
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
+    }
+
+    return res.status(200).json({ message: 'Status updated!' });
+  }
+
+  async index(_req, res) {
+    const orders = await Order.find();
+
+    return res.status(200).json(orders);
+  }
 }
 
 export default new OrderController();
