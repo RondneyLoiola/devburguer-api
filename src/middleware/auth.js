@@ -20,8 +20,8 @@ const authMiddleware = (req, res, next) => {
       }
 
       // cria um campo userId na request
-      //console.log(decoded)
       req.userId = decoded.id;
+      req.userName = decoded.name;
       req.userIsAdmin = decoded.admin
     });
   } catch (_error) {
