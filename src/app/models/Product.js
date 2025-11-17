@@ -8,6 +8,7 @@ class Product extends Model {
         price: Sequelize.INTEGER,
         //category: Sequelize.STRING, removido na migration
         path: Sequelize.STRING,
+        offer: Sequelize.BOOLEAN,
         url: {
           type: Sequelize.VIRTUAL, //cria um campo virtual do banco
           get() {
