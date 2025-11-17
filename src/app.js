@@ -7,6 +7,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); //por causa do type module
 app.use('/product-file', fileRouteConfig); //rota para ver a foto do produto
+app.use('/category-file', fileRouteConfig);
 
 app.use(routes);
 

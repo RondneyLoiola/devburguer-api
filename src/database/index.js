@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { Sequelize } from 'sequelize';
 import Category from '../app/models/Category.js';
 import Product from '../app/models/Product.js';
@@ -10,15 +11,25 @@ class Database {
   constructor() {
     //toda vez que a classe é iniciade, ele é chamado
     this.init(); //o this se refere ao Database
+    this.mongo();
   }
 
-  init() {
+  init() { // postgres
     this.connection = new Sequelize(databaseconfig);
     //models.map((model) => model.init(this.connection)); => sem associate
 
     //com associate, no model de Products
-    models.map((model) => model.init(this.connection))
-    .map(model => model.associate && model.associate(this.connection.models))
+    models
+      .map((model) => model.init(this.connection))
+      .map(
+        (model) => model.associate && model.associate(this.connection.models),
+      );
+  }
+
+  mongo() { // mongodb
+    this.mongooseConnection = mongoose.connect(
+      'mongodb://localhost:27017/devburguer',
+    );
   }
 }
 
