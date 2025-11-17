@@ -1,7 +1,9 @@
 import * as yup from 'yup';
 import Category from '../models/Category.js';
 import Product from '../models/Product.js';
+import Order from '../schemas/Order.js';
 
+// configurado de acordo com o schema
 class OrderController {
   async store(req, res) {
     // //cria
@@ -34,7 +36,8 @@ class OrderController {
       where: {
         id: productsId,
       },
-      include: { //inclui o relacionamento com a categoria
+      include: {
+        //inclui o relacionamento com a categoria
         model: Category,
         as: 'category',
         attributes: ['name'],
@@ -42,15 +45,16 @@ class OrderController {
     });
 
     const mapedProducts = findedProducts.map((prd) => {
-      const quantity = products.find(p => p.id === prd.id).quantity;
+      const quantity = products.find((p) => p.id === prd.id).quantity;
 
-      const newProduct = { // apenas o que vai aparecer no pedido
+      const newProduct = {
+        // apenas o que vai aparecer no pedido
         id: prd.id,
         name: prd.name,
         price: prd.price,
         url: prd.url,
         category: prd.category.name,
-        quantity
+        quantity,
       };
 
       return newProduct;
@@ -63,10 +67,12 @@ class OrderController {
         name: userName,
       },
       products: mapedProducts,
-      status: 'Pedido realizado com sucesso!'
+      status: 'Pedido realizado com sucesso!',
     };
 
-    return res.status(201).json(order);
+    const newOrder = await Order.create(order);
+
+    return res.status(201).json(newOrder);
   }
 }
 
