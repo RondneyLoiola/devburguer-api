@@ -5,9 +5,9 @@ import OrderController from './app/controllers/OrderController.js';
 import ProductController from './app/controllers/ProductController.js';
 import SessionController from './app/controllers/SessionController.js';
 import UserController from './app/controllers/UserController.js';
+import adminMiddleware from './app/middleware/admin.js';
+import authMiddleware from './app/middleware/auth.js';
 import multerConfig from './config/multer.cjs';
-import adminMiddleware from './middleware/admin.js';
-import authMiddleware from './middleware/auth.js';
 
 const routes = new Router();
 
@@ -17,7 +17,7 @@ const upload = multer(multerConfig);
 routes.post('/users', UserController.store);
 
 // Session
-routes.post('/session', SessionController.store);
+routes.post('/sessions', SessionController.store);
 
 // Products
 routes.use(authMiddleware); // todas as rotas abaixo terão o middleware
@@ -53,10 +53,6 @@ routes.get('/categories', CategoryController.index);
 // Orders
 routes.post('/orders', OrderController.store);
 routes.get('/orders', OrderController.index);
-routes.put(
-  '/orders/:id',
-  adminMiddleware,
-  OrderController.update,
-);
+routes.put('/orders/:id', adminMiddleware, OrderController.update);
 
 export default routes;
