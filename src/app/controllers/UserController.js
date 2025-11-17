@@ -9,7 +9,7 @@ class UserController {
       name: yup.string().required(),
       email: yup.string().email().required(),
       password: yup.string().min(6).required(),
-      admin: yup.boolean().required(),
+      admin: yup.boolean(),
     });
 
     try {
