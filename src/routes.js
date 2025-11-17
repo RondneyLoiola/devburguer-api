@@ -19,7 +19,7 @@ routes.get('/users', UserController.index);
 routes.delete('/users/:id', UserController.delete);
 
 // Session
-routes.post('/session', SessionController.store);
+routes.post('/sessions', SessionController.store);
 
 // Products
 routes.use(authMiddleware); // todas as rotas abaixo terão o middleware
